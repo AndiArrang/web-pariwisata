@@ -11,7 +11,7 @@ const Paket = db.define('pakets', {
   nama: {
     type: DataTypes.STRING,
     allowNull: false,
-
+    unique: true
   },
   harga: {
     type: DataTypes.INTEGER,

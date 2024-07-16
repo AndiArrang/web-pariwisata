@@ -4,10 +4,13 @@ import bodyParser from 'body-parser'
 import publicAPI from './routes/public-api.js'
 import adminAPI from './routes/admin-api.js'
 import { errorMidlleware } from './middleware/error-middleware.js'
+import cookieParser from 'cookie-parser'
+
 
 const web = express()
 
-web.use(cors())
+web.use(cookieParser())
+web.use(cors({credentials: true}))
 web.use(express.json())
 web.use(express.urlencoded({extended: true}));
 web.use(bodyParser.urlencoded({ extended: true }));
