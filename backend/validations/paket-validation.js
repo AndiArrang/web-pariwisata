@@ -7,6 +7,14 @@ const createPaketValidation = Joi.object({
     durasi: Joi.string().required()
 })
 
+const updatePaketValidation = Joi.object({
+    nama: Joi.string(),
+    harga: Joi.number(),
+    lokasi: Joi.string(),
+    durasi: Joi.string()
+})
+
 export {
-    createPaketValidation
+    createPaketValidation,
+    updatePaketValidation
 }

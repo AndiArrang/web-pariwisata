@@ -5,11 +5,12 @@ import { v4 as uuid } from "uuid";
 
 
 export const loginAdmin = async (request) => {
-    const admin = Admin.findOne({
+    const admin = await Admin.findOne({
         where: {
             username: request.username
         }
     })
+    console.log(admin)
 
     if(!admin) {
         throw new ResponseError(400,'username or password wrong !!!')
