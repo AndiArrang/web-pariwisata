@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../application/db.js";
+import Paket from "./paket.js";
+import Penginapan from "./penginapan.js";
 
 const PaketPenginapan = db.define('paket_penginapans', {
   id: {
@@ -23,5 +25,7 @@ const PaketPenginapan = db.define('paket_penginapans', {
     }
   }
 })
+
+
 
 export default PaketPenginapan
