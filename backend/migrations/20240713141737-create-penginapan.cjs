@@ -9,9 +9,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      nama: {
         type: Sequelize.STRING,
+        unique: true,
         allowNull: false
+      },
+      lokasi: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       tipe: {
         type: Sequelize.ENUM('hotel','villa'),

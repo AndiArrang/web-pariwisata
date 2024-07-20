@@ -49,7 +49,7 @@ export const createPaket = async (request) => {
             nama: data.nama
         }
     })
-
+    
     if (countPaketName === 1) {
         throw new ResponseError(400, 'Nama paket sudah ada !!')
     }

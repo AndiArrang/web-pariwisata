@@ -8,7 +8,11 @@ const Penginapan = db.define('penginapans', {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  name: {
+  nama: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  lokasi: {
     type: DataTypes.STRING,
     allowNull: false
   },
