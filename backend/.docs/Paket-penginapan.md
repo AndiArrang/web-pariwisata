@@ -33,6 +33,12 @@ Response Body Success :
                 "nama": "Penginapan B",
                 "lokasi": "Malino",
                 "tipe": "villa"
+            },
+            {
+                "id_penginapan": 3,
+                "nama": "Penginapan C",
+                "lokasi": "Malino",
+                "tipe": "villa"
             }
         ]
     }

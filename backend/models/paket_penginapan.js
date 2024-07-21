@@ -1,15 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../application/db.js";
-import Paket from "./paket.js";
-import Penginapan from "./penginapan.js";
 
 const PaketPenginapan = db.define('paket_penginapans', {
-  id: {
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-    type: DataTypes.INTEGER
-  },
   id_paket: {
     type: DataTypes.INTEGER,
     references: {
