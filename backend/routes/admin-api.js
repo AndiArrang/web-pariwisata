@@ -2,6 +2,7 @@ import express from 'express';
 import paketController from '../controllers/paket-controller.js';
 import { authMidlleware } from '../middleware/auth-middleware.js';
 import penginapanController from '../controllers/penginapan-controller.js';
+import paketPenginapanController from '../controllers/paketPenginapan-controller.js';
 
 const adminAPI = express.Router();
 
@@ -16,5 +17,11 @@ adminAPI.delete('/api/admin/paket/:id',paketController.remove)
 adminAPI.post('/api/admin/penginapan',penginapanController.create)
 adminAPI.patch('/api/admin/penginapan/:id',penginapanController.update)
 adminAPI.delete('/api/admin/penginapan/:id',penginapanController.remove)
+
+//API Paket-Penginapan
+adminAPI.post('/api/admin/paket-penginapan',paketPenginapanController.create)
+adminAPI.post('/api/admin/paket-penginapan/:idPaket',paketPenginapanController.add)
+adminAPI.put('/api/admin/paket-penginapan/:idPaket',paketPenginapanController.set)
+adminAPI.delete('/api/admin/paket-penginapan/:idPaket',paketPenginapanController.remove)
 
 export default adminAPI

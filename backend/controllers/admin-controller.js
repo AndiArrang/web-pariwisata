@@ -9,7 +9,7 @@ const login = async (req,res,next) => {
         time.setDate(time.getDate() + 7);
         if (result) {
             res.cookie('token',result.token ,{httpOnly: true, expires: time } )
-            res.status(400).json({
+            res.status(200).json({
                 data: result
             })
         }
