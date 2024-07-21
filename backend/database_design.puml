@@ -1,0 +1,59 @@
+
+@startuml wisata
+
+' 1. Harga paket per org tergantung dari jml org dan penginapan yang dipilih 
+' 2. 
+
+entity Paket {
+    id_paket: int <PK>
+    --
+    nama: varchar
+    harga: int
+    lokasi: varchar
+    durasi: varchar
+}
+
+entity Pesanan {
+    id_pesanan: int <PK>
+    id_penginapan: int <FK>
+    --
+    nama_pemesan: varchar
+    email: varchar
+    no_wa: int
+    jml_org: int
+    tgl_perjalanan: date
+    tgl_pesanan: timestamp
+    total_bayar: int
+}
+
+entity Penginapan {
+    id_penginapan: int <PK>
+    --
+    nama: varchar
+    tipe: enum(Hotel,Villa)
+    lokasi: varchar   
+}
+
+entity Harga_penginapan {
+    id: int <PK>
+    id_penginapan: <FK>
+    --
+    min_org: int
+    max_org: int
+    harga: int
+}
+
+entity Paket_penginapan {
+    id: int <PK>
+    --
+    id_paket: <FK>
+    id_penginapan: <FK>
+}
+
+
+Paket }o--o{ Paket_penginapan 
+Penginapan }o--o{ Paket_penginapan 
+Penginapan ||--o{ Harga_penginapan
+Penginapan ||--|{ Pesanan
+
+@enduml
