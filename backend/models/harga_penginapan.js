@@ -18,11 +18,13 @@ const HargaPenginapan = db.define( 'harga_penginapans', {
   },
   min_org: {
     allowNull: false,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    unique: true
   },
   max_org: {
     allowNull: false,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    unique: true
   },
   harga: {
     allowNull: false,
