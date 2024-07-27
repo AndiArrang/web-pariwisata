@@ -2,7 +2,6 @@ import { createPaketValidation } from "../validations/paket-validation.js"
 import validate from "../validations/validate.js"
 import { ResponseError } from "../error-handler/response-error.js"
 import Penginapan from "../models/penginapan.js"
-import { where } from "sequelize"
 import Paket from "../models/paket.js"
 
 

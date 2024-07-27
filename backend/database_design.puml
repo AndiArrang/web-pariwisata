@@ -13,6 +13,12 @@ entity Paket {
     durasi: varchar
 }
 
+entity Paket_images {
+    id: int <PK>
+    id_paket: int <FK>
+    --
+    url: String
+}
 entity Pesanan {
     id_pesanan: int <PK>
     id_penginapan: int <FK>
@@ -55,5 +61,6 @@ Paket }o--o{ Paket_penginapan
 Penginapan }o--o{ Paket_penginapan 
 Penginapan ||--o{ Harga_penginapan
 Penginapan ||--|{ Pesanan
+Paket ||--o{ Paket_images
 
 @enduml
