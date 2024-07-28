@@ -5,6 +5,7 @@ import publicAPI from './routes/public-api.js'
 import adminAPI from './routes/admin-api.js'
 import { errorMidlleware } from './middleware/error-middleware.js'
 import cookieParser from 'cookie-parser'
+import 'dotenv/config.js'
 
 
 const web = express()
