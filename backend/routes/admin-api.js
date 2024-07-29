@@ -4,7 +4,10 @@ import { authMidlleware } from '../middleware/auth-middleware.js';
 import penginapanController from '../controllers/penginapan-controller.js';
 import paketPenginapanController from '../controllers/paketPenginapan-controller.js';
 import hrgPenginapanController from '../controllers/hrgPenginapan-controller.js';
+import multer from 'multer';
+import paketImageController from '../controllers/paketImage-controller.js';
 
+const upload = multer({ storage: multer.memoryStorage()})
 const adminAPI = express.Router();
 
 adminAPI.use(authMidlleware)
@@ -29,5 +32,8 @@ adminAPI.delete('/api/admin/paket-penginapan/:idPaket',paketPenginapanController
 adminAPI.post('/api/admin/harga-penginapan/:idPenginapan',hrgPenginapanController.create)
 adminAPI.patch('/api/admin/harga-penginapan/:idPenginapan',hrgPenginapanController.update)
 adminAPI.delete('/api/admin/harga-penginapan/:idPenginapan',hrgPenginapanController.remove)
+
+// API Paket images 
+adminAPI.post('/api/admin/paket-image/:idPaket',upload.single('file'),paketImageController.upload)
 
 export default adminAPI
