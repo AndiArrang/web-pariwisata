@@ -12,7 +12,6 @@ export const getPaket = async () => {
     if (result.length < 1) {
         throw new ResponseError(404,'Paket not found !')
     }
-
     return result
 }
 
