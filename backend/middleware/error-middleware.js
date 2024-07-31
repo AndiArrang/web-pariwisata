@@ -1,4 +1,5 @@
 import { ResponseError } from "../error-handler/response-error.js";
+import multer from "multer";
 const errorMidlleware = (err,req,res,next) => {
     if (!err) {
         next();
@@ -8,7 +9,11 @@ const errorMidlleware = (err,req,res,next) => {
         res.status(err.status).json({
             errors: err.message
         }).end();
-    } 
+    } else  if (err instanceof multer.MulterError) {
+        res.status(err.status).json({
+            errors: err.code
+        }).end();
+    }
     else {
         console.log(err.status)
         res.status(500).json({
