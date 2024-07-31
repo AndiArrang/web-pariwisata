@@ -4,10 +4,14 @@ import { authMidlleware } from '../middleware/auth-middleware.js';
 import penginapanController from '../controllers/penginapan-controller.js';
 import paketPenginapanController from '../controllers/paketPenginapan-controller.js';
 import hrgPenginapanController from '../controllers/hrgPenginapan-controller.js';
+<<<<<<< HEAD
 import multer from 'multer';
 import paketImageController from '../controllers/paketImage-controller.js';
 
 const upload = multer({ storage: multer.memoryStorage()})
+=======
+
+>>>>>>> 4ec61dbdfd1a5997a0dab703d79aaf0b161aff2f
 const adminAPI = express.Router();
 
 adminAPI.use(authMidlleware)
@@ -33,7 +37,10 @@ adminAPI.post('/api/admin/harga-penginapan/:idPenginapan',hrgPenginapanControlle
 adminAPI.patch('/api/admin/harga-penginapan/:idPenginapan',hrgPenginapanController.update)
 adminAPI.delete('/api/admin/harga-penginapan/:idPenginapan',hrgPenginapanController.remove)
 
+<<<<<<< HEAD
 // API Paket images 
 adminAPI.post('/api/admin/paket-image/:idPaket',upload.single('file'),paketImageController.upload)
 
+=======
+>>>>>>> 4ec61dbdfd1a5997a0dab703d79aaf0b161aff2f
 export default adminAPI

@@ -15,9 +15,9 @@ web.use(express.urlencoded({extended: true}));
 web.use(bodyParser.urlencoded({ extended: true }));
 web.use(bodyParser.json());
 
-
 web.use(publicAPI)
 web.use(adminAPI)
+
 web.use(errorMidlleware)
 
 web.listen(3001, () => {

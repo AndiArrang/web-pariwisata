@@ -2,7 +2,6 @@ import { DataTypes } from "sequelize";
 import db from "../application/db.js";
 import Penginapan from "./penginapan.js";
 import PaketPenginapan from "./paket_penginapan.js";
-import PaketImages from "./paket_images.js";
 
 const Paket = db.define('pakets', {
   id_paket: {
