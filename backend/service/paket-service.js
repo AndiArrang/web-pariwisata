@@ -2,9 +2,12 @@ import Paket from "../models/paket.js";
 import { createPaketValidation } from "../validations/paket-validation.js";
 import validate from "../validations/validate.js";
 import { ResponseError } from "../error-handler/response-error.js";
+import PaketImages from "../models/paket_images.js";
 
 export const getPaket = async () => {
-    const result = await Paket.findAll();
+    const result = await Paket.findAll({
+        include: PaketImages
+    });
 
     if (result.length < 1) {
         throw new ResponseError(404,'Paket not found !')
@@ -17,7 +20,8 @@ export const getPaketByLokasi = async (request) => {
     const result = await Paket.findAll({
         where: {
             lokasi: request
-        }
+        },
+        include: PaketImages
     });
 
     if (result.length < 1) {
@@ -31,7 +35,8 @@ export const getPaketBySearch = async (request) => {
     const result = await Paket.findAll({
         where: {
             nama: request
-        }
+        },
+        include: PaketImages
     });
 
     if (result.length < 1) {
