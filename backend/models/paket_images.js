@@ -9,6 +9,8 @@ const PaketImages = db.define('paket_images', {
     type: DataTypes.INTEGER
   },
   id_paket: {
+    allowNull: false,
+    unique: true,
     type: DataTypes.INTEGER,
     references: {
       model: 'pakets',
@@ -16,9 +18,15 @@ const PaketImages = db.define('paket_images', {
     }   
   },
   url: {
+    allowNull: false,
+    type: DataTypes.TEXT,
+  },
+  public_id: {
+    allowNull: false,
     type: DataTypes.STRING,
   }
 })
+
 
 
 
