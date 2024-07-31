@@ -13,6 +13,7 @@ module.exports = {
       },
       id_paket: {
         allowNull: false,
+        unique: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'pakets',
@@ -20,6 +21,9 @@ module.exports = {
         }
       },
       url: {
+        type: Sequelize.TEXT
+      },
+      public_id: {
         type: Sequelize.STRING
       },
       createdAt: {
