@@ -5,12 +5,14 @@ import penginapanController from '../controllers/penginapan-controller.js';
 import paketPenginapanController from '../controllers/paketPenginapan-controller.js';
 import hrgPenginapanController from '../controllers/hrgPenginapan-controller.js';
 import paketImageController from '../controllers/paketImage-controller.js';
-import { upload } from '../middleware/multer-middleware.js';
+import { update, upload } from '../middleware/multer-middleware.js';
 
 const adminAPI = express.Router();
 
 // API Paket images 
 adminAPI.post('/api/admin/paket-image/:idPaket',upload.single('file'),paketImageController.upload)
+adminAPI.put('/api/admin/paket-image/:idPaket',update.single('file'),paketImageController.update)
+adminAPI.delete('/api/admin/paket-image/:idPaket',paketImageController.remove)
 
 adminAPI.use(authMidlleware)
 
