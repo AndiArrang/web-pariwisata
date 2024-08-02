@@ -21,6 +21,8 @@ Response Body Success :
 
 ```json
 {
+    "status": "success",
+    "message": "Data added successfully.",
     "data": {
         "id_paket": 19,
         "nama": "Nama Paket",
@@ -71,6 +73,8 @@ Response Body Success :
 
 ```json
 {
+    "status": "success",
+    "message": "Data added successfully.",
     "data": {
         "id_paket": 19,
         "nama": "Nama Paket",
@@ -122,6 +126,8 @@ Response Body Success :
 
 ```json
 {
+    "status": "success",
+    "message": "Data updated successfully.",
     "data": {
         "id_paket": 19,
         "nama": "Nama Paket",
@@ -206,7 +212,8 @@ Response Body Success :
 
 ```json
 {
-    "data": "Data berhasil dihapus"
+    "status": "success",
+    "message": "Data deleted successfully.",
 }
 ```
 
