@@ -53,6 +53,8 @@ const create = async (req,res,next) => {
 
         if(result) {
             res.status(400).json({
+                status: 'success',
+                message: 'Data added successfully.',
                 data: result
             })
         }
@@ -69,6 +71,8 @@ const update = async (req,res,next) => {
 
         if(result) {
             res.status(401).json({
+                status: 'success',
+                message: 'Data updated successfully.',
                 data: result
             })
         }
@@ -85,6 +89,8 @@ const remove = async (req,res,next) => {
 
         if(result) {
             res.status(400).json({
+                status: 'success',
+                message: 'Data deleted successfully.',
                 data: "OK"
             })
         }
