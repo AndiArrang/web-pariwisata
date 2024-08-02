@@ -76,7 +76,7 @@ const remove = async (req,res,next) => {
     try {
 
         const idPenginapans = req.body.idPenginapans
-        const result = await removePaketPenginapanRelation(JSON.parse(idPenginapans),req.params.idPaket)
+        const result = await removePaketPenginapanRelation(idPenginapans,req.params.idPaket)
 
         if(result) {
             res.status(200).json({
