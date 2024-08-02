@@ -8,8 +8,9 @@ const create = async (req,res,next) => {
 
         if(result) {
             res.status(200).json({
-                data: result,
-                msg: 'Data berhasil dibuat !'
+                status: "success",
+                message: "Data added successfully.",
+                data: result
             })
         }
     } catch (error) {
@@ -24,8 +25,9 @@ const update = async (req,res,next) => {
 
         if(result) {
             res.status(201).json({
-                data: result,
-                msg: 'Data berhasil diupdate !'
+                status: "success",
+                message: "Data updated successfully.",
+                data: result
             })
         }
     } catch (error) {
@@ -53,7 +55,8 @@ const remove = async (req,res,next) => {
 
         if(result) {
             res.status(200).json({
-                msg: 'Data berhasi dihapus !'
+                status: "success",
+                message: "Data deleted successfully.",
             })
         }
     } catch (error) {
