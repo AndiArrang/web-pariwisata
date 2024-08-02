@@ -5,9 +5,10 @@ import Penginapan from "../models/penginapan.js"
 import Paket from "../models/paket.js"
 
 
+// membuat paket baru serta menambahkan penginapan yang terhubung
 export const createPaketWithPenginapans = async (request,idPenginapans) => {
+    console.log(idPenginapans)
     const data = validate(createPaketValidation,request)
-
     // validasi duplikasi nama dan tipe data idPenginapans
     const countPaketName = await Paket.count({
         where: {
@@ -39,7 +40,7 @@ export const createPaketWithPenginapans = async (request,idPenginapans) => {
     // insert paket dan penginapan
     const paket = await Paket.create(data)
     await paket.addPenginapan(penginapans)
-
+    console.log('hayyy')
     return Paket.findByPk(paket.dataValues.id_paket,{
         include: {
             model: Penginapan,
@@ -51,6 +52,8 @@ export const createPaketWithPenginapans = async (request,idPenginapans) => {
 
 }
 
+
+// menambahkan penginapan ke paket yang sudah ada
 export const addPenginapansToPaket = async (idPenginapans,idPaket) => {
     // cek paket
     const paket = await Paket.findByPk(idPaket)
@@ -91,7 +94,7 @@ export const addPenginapansToPaket = async (idPenginapans,idPaket) => {
 
 }
 
-
+// mengganti semua penginpan yang terhubung dengan paket dengan penginapan baru
 export const setPenginapansToPaket = async (idPenginapans,idPaket) => {
     // cek paket
     const paket = await Paket.findByPk(idPaket)
@@ -129,6 +132,7 @@ export const setPenginapansToPaket = async (idPenginapans,idPaket) => {
     })
 }
 
+// get penginapan by id paket
 export const getPenginapanByPaketId = async (idPaket) => {
     return Paket.findByPk(idPaket,{
         include: {
@@ -140,7 +144,7 @@ export const getPenginapanByPaketId = async (idPaket) => {
     })
 }
 
-
+// menghapus penginapan yang terhubung dengan paket
 export const removePaketPenginapanRelation = async (idPenginapans,idPaket) => {
     // cek paket
     const paket = await Paket.findByPk(idPaket)
