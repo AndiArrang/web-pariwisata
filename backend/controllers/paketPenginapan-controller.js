@@ -3,16 +3,16 @@ import { addPenginapansToPaket, createPaketWithPenginapans, getPenginapanByPaket
 // controller membuat paket baru dan menambahkan penginapan ygg terhubung
 const create = async (req,res,next) => {
     try {
-        console.log(req.body)
         const idPenginapans = req.body.idPenginapans
         const newPaket = req.body
         delete newPaket.idPenginapans
-        const result = await createPaketWithPenginapans(newPaket,JSON.parse(idPenginapans))
+        const result = await createPaketWithPenginapans(newPaket,idPenginapans)
 
         if(result) {
             res.status(200).json({
+                status: 'success',
+                message: 'Data added successfully.',
                 data: result,
-                msg: 'Data berhasil di buat'
             })
         }
     } catch (error) {
@@ -24,12 +24,13 @@ const create = async (req,res,next) => {
 const add = async (req,res,next) => {
     try {
         const idPenginapans = req.body.idPenginapans
-        const result = await addPenginapansToPaket(JSON.parse(idPenginapans),req.params.idPaket)
+        const result = await addPenginapansToPaket(idPenginapans,req.params.idPaket)
 
         if(result) {
             res.status(201).json({
+                status: 'success',
+                message: 'Data added successfully.',
                 data: result,
-                msg: 'Data berhasil ditambahkan'
             })
         }
     } catch (error) {
@@ -41,12 +42,13 @@ const add = async (req,res,next) => {
 const set = async (req,res,next) => {
     try {
         const idPenginapans = req.body.idPenginapans
-        const result = await setPenginapansToPaket(JSON.parse(idPenginapans),req.params.idPaket)
+        const result = await setPenginapansToPaket(idPenginapans,req.params.idPaket)
 
         if(result) {
             res.status(201).json({
-                data: result,
-                msg: 'Data berhasil di set'
+                status: 'success',
+                message: 'Data updated successfully.',
+                data: result
             })
         }
     } catch (error) {
@@ -78,7 +80,8 @@ const remove = async (req,res,next) => {
 
         if(result) {
             res.status(200).json({
-                msg: 'Data berhasil dihapus'
+                status: 'success',
+                message: 'Data deleted successfully.',
             })
         }
     } catch (error) {
