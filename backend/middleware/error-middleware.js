@@ -11,7 +11,7 @@ const errorMidlleware = (err,req,res,next) => {
         }).end();
     } else  if (err instanceof multer.MulterError) {
         res.status(err.status).json({
-            errors: err.code
+            errors: err.message
         }).end();
     }
     else {
