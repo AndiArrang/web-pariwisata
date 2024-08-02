@@ -1,5 +1,5 @@
 import Paket from "../models/paket.js";
-import { createPaketValidation } from "../validations/paket-validation.js";
+import { createPaketValidation, updatePaketValidation } from "../validations/paket-validation.js";
 import validate from "../validations/validate.js";
 import { ResponseError } from "../error-handler/response-error.js";
 import PaketImages from "../models/paket_images.js";
@@ -62,7 +62,7 @@ export const createPaket = async (request) => {
 }
 
 export const updatePaket = async (request,id) => {
-    const data = validate(createPaketValidation,request)
+    const data = validate(updatePaketValidation,request)
 
     const paket = await Paket.findByPk(id)
 
