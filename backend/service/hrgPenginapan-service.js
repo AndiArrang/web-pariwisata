@@ -6,7 +6,6 @@ import Penginapan from "../models/penginapan.js"
 import { createHrgPenginapanValidation, updateHrgPenginapanValidation } from "../validations/hrgPenginapan-validation.js"
 import validate from "../validations/validate.js"
 
-
 export const createHargaPenginapan = async (request,idPenginapan) => {
     let datas = []
     
@@ -24,28 +23,35 @@ export const createHargaPenginapan = async (request,idPenginapan) => {
 
     // validasi max dan min orang dan validsi Joi pada data request
     for (let i = 0; i < datas.length; i++) {
+
         if (datas[i].min_org > datas[i].max_org) {
-            throw new ResponseError(400,'Minimal orang tidak boleh lebih besar dari max oarng')
+            throw new ResponseError(400,'Min orang tidak boleh lebih besar dari max orang')
         }
+        // validasi tumpang tindih data
         for (let j = i + 1; j < datas.length; j++) {
           if (
             datas[i].min_org >= datas[j].min_org && datas[i].min_org <= datas[j].max_org  ||
-            datas[i].max_org >= datas[j].min_org && datas[i].max_org <= datas[j].max_org
+            datas[i].max_org >= datas[j].min_org && datas[i].max_org <= datas[j].max_org ||
+            datas[i].min_org < datas[j].min_org && datas[i].max_org > datas[j].max_org ||
+            datas[i].max_org > datas[j].max_org && datas[i].min_org < datas[j].min_org 
           ) {
-            throw new ResponseError(400,'Jumlah orang tidak boleh sama atau antara max-min jumlah orang yg telah ada')
+            throw new ResponseError(400,`Data min_org : ${datas[i].min_org},max_org : ${datas[i].max_org} konflik dengan data request`)
           }
         }
+
+        //validasi tipe data menggunakan Joi
         validate(createHrgPenginapanValidation, datas[i]);
     }
 
 
-    // validasi max min orang pada database serta insert data ke databse
+    // validasi tumpang tindih data pada database serta insert data ke databse
     const transaction = await db.transaction()  
     try {
         for ( const data of datas) {
+            console.log(data)
             const isDuplikat = await HargaPenginapan.findOne({
                 where: {
-                    id_penginapan: data.id_penginapan,
+                    id_penginapan: idPenginapan,
                     [Op.or]: [
                       {
                         [Op.and]: [
@@ -58,12 +64,24 @@ export const createHargaPenginapan = async (request,idPenginapan) => {
                           { max_org: { [Op.gte]: data.min_org } },
                           { max_org: { [Op.lte]: data.max_org } }
                         ]
+                      },
+                      {
+                        [Op.and]: [
+                          { min_org: { [Op.gt]: data.min_org } },
+                          { max_org: { [Op.lt]: data.max_org } }
+                        ]
+                      },
+                      {
+                        [Op.and]: [
+                          { max_org: { [Op.lt]: data.max_org } },
+                          { min_org: { [Op.gt]: data.min_org } }
+                        ]
                       }
                     ]
                 }
             });
             if (isDuplikat) {
-                throw new Error()
+                throw new Error(`Data min_org : ${data.min_org},max_org : ${data.max_org} konflik dengan data pada database`)
             }
             data.id_penginapan = idPenginapan;
 
@@ -73,7 +91,7 @@ export const createHargaPenginapan = async (request,idPenginapan) => {
         await transaction.commit()
     } catch (error) {
         await transaction.rollback()
-        throw new ResponseError(400,'Jumlah orang tidak boleh sama atau antara max-min jumlah orang yg telah ada !!')
+        throw new ResponseError(400,error.message)
     }
 
     return Penginapan.findByPk(idPenginapan,{
@@ -109,13 +127,15 @@ export const updateHargaPenginapan = async (request,idPenginapan) => {
         if (datas[i].min_org > datas[i].max_org) {
             throw new ResponseError(400,'Minimal orang tidak boleh lebih besar dari max orang')
         }
-        //cek apakah ada duplikasi pada min dan max org
+        //cek tumpang tindih data pada data request
         for (let j = i + 1; j < datas.length; j++) {
           if (
             datas[i].min_org >= datas[j].min_org && datas[i].min_org <= datas[j].max_org  ||
-            datas[i].max_org >= datas[j].min_org && datas[i].max_org <= datas[j].max_org
+            datas[i].max_org >= datas[j].min_org && datas[i].max_org <= datas[j].max_org ||
+            datas[i].min_org < datas[j].min_org && datas[i].max_org > datas[j].max_org ||
+            datas[i].max_org > datas[j].max_org && datas[i].min_org < datas[j].min_org 
           ) {
-            throw new ResponseError(400,'Jumlah orang tidak boleh sama atau antara max-min jumlah orang yg telah ada')
+            throw new ResponseError(400,`Data min_org : ${datas[i].min_org},max_org : ${datas[i].max_org} konflik dengan data request`)
           }
         }
         validate(updateHrgPenginapanValidation, datas[i]);
@@ -124,21 +144,30 @@ export const updateHargaPenginapan = async (request,idPenginapan) => {
     // validasi max min orang pada database serta memasukkan data ke databse
     const transaction = await db.transaction()  
     try {
-        // validasi min orang tidak oleh kurang dari max org
+        // validasi min orang tidak boleh kurang dari max org
         for ( const data of datas) {
-            const cekSelisihOrg = await HargaPenginapan.findOne({
-                where: {
-                    id: data.id,
-                    [Op.or]: [
-                        {max_org: {[Op.lt]: data.min_org}},
-                        {min_org: {[Op.gt]: data.max_org}}
-                    ]
-                }
-            })
-            if (cekSelisihOrg) {
-                throw new Error()
+            // cek apakah harga penginapan ada
+            const hargaPenginapan = await HargaPenginapan.findByPk(data.id)
+            if (!hargaPenginapan) {
+                throw new Error(`Harga penginapan dengan id ${data.id} tidak ditemukan !!`)
             }
-            // validasi duplikasi max atau min orang
+            
+            // jika data yang dikirim hanya salah satu dari min dan max
+            if (!data.min_org || !data.max_org) {
+                const cekSelisihOrg = await HargaPenginapan.findOne({
+                    where: {
+                        id: data.id,
+                        [Op.or]: [
+                            {max_org: {[Op.lt]: data.min_org}},
+                            {min_org: {[Op.gt]: data.max_org}}
+                        ]
+                    }
+                })
+                if (cekSelisihOrg) {
+                    throw new Error('Minimal orang tidak boleh lebih besar dari max orang')
+                }
+            }
+            // validasi tumpang tindih data pada database
             const isDuplikat = await HargaPenginapan.findOne({
                 where: {
                     id_penginapan: idPenginapan,
@@ -157,12 +186,24 @@ export const updateHargaPenginapan = async (request,idPenginapan) => {
                         { min_org: { [Op.lte]: data.max_org } },
                         { max_org: { [Op.gte]: data.max_org } }
                         ]
+                    },
+                    {
+                        [Op.and]: [
+                          { min_org: { [Op.gt]: hargaPenginapan.min_org } },
+                          { max_org: { [Op.lt]: data.max_org } }
+                        ]
+                      },
+                      {
+                        [Op.and]: [
+                          { max_org: { [Op.lt]: hargaPenginapan.max_org } },
+                          { min_org: { [Op.gt]: data.min_org } }
+                        ]
                       }
                     ]
                 }
             });
             if (isDuplikat) {
-                throw new Error('error 1')
+                throw new Error(`Data min_org : ${data.min_org}, max_org : ${data.max_org} konflik dengan data pada database`)
             }
 
             await HargaPenginapan.update(data,{
@@ -176,11 +217,7 @@ export const updateHargaPenginapan = async (request,idPenginapan) => {
         await transaction.commit()
     } catch (error) {
         await transaction.rollback()
-        if (error.message == 'error 1') {
-            throw new ResponseError(400,'Jumlah orang tidak boleh sama atau antara max-min jumlah orang yg telah ada !!')
-        } else {
-            throw new ResponseError(400,'Minimal orang tidak boleh lebih besar dari max orang')
-        }
+        throw new ResponseError(400,error.message)
     }
    
     return Penginapan.findByPk(idPenginapan,{
@@ -207,10 +244,10 @@ export const getHargaPenginapan = async (idPenginapan) => {
     return data
 }
 
-export const removeHargaPenginapan = async (idHargaPenginapan) => {
+export const removeHargaPenginapan = async (id) => {
     const result = await HargaPenginapan.destroy({
         where: {
-            id: idHargaPenginapan
+            id: id
         }
     })
 
