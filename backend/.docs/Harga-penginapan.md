@@ -154,16 +154,16 @@ Response Body Success :
         "updatedAt": "2024-07-21T14:04:14.000Z",
         "harga_penginapans": [
             {
-                "id": 7,
+                "id": 1,
                 "id_penginapan": 5,
-                "min_org": 7,
-                "max_org": 9,
+                "min_org": 1,
+                "max_org": 2,
                 "harga": 100009,
                 "createdAt": "2024-07-22T14:11:47.000Z",
                 "updatedAt": "2024-07-22T14:11:47.000Z"
             },
             {
-                "id": 9,
+                "id": 2,
                 "id_penginapan": 5,
                 "min_org": 3,
                 "max_org": 5,
