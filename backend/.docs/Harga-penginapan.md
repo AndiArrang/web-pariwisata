@@ -10,19 +10,14 @@ Request Body :
 ```json
 [
     {
-        "min_org": 1,
-        "max_org": 3,
-        "harga": 200000
+        "min_org": 3,   //required
+        "max_org": 6,   //required
+        "harga": 150000 //required
     },
     {
-        "min_org": 4,
-        "max_org": 6,
-        "harga": 150000
-    },
-    {
-        "min_org": 7,
-        "max_org": 9,
-        "harga": 100000
+        "min_org": 7,   //required
+        "max_org": 9,   //required
+        "harga": 100000 //required
     }
 ]
 ```
@@ -31,6 +26,8 @@ Response Body Success :
 
 ```json
 {
+    "status": "success",
+    "message": "Data added successfully.",
     "data": {
         "id_penginapan": 5,
         "nama": "Penginapan C",
@@ -39,28 +36,26 @@ Response Body Success :
         "createdAt": "2024-07-21T14:04:14.000Z",
         "updatedAt": "2024-07-21T14:04:14.000Z",
         "harga_penginapans": [
+             {
+                "id": 1,
+                "id_penginapan": 5,
+                "min_org": 3,
+                "max_org": 6,
+                "harga": 150000,
+                "createdAt": "2024-07-22T15:03:43.000Z",
+                "updatedAt": "2024-07-22T15:03:43.000Z"
+            },
             {
-                "id": 7,
+                "id": 2,
                 "id_penginapan": 5,
                 "min_org": 7,
                 "max_org": 9,
-                "harga": 100009,
+                "harga": 100000,
                 "createdAt": "2024-07-22T14:11:47.000Z",
                 "updatedAt": "2024-07-22T14:11:47.000Z"
-            },
-            {
-                "id": 9,
-                "id_penginapan": 5,
-                "min_org": 3,
-                "max_org": 5,
-                "harga": 100009,
-                "createdAt": "2024-07-22T15:03:43.000Z",
-                "updatedAt": "2024-07-22T15:03:43.000Z"
-            }
+            }      
         ]
-    },
-    "msg": "Data berhasil dibuat !"
-
+    }
 }
 ```
 
@@ -83,22 +78,16 @@ Request Body :
 ```json
 [
     {
-        "id":1,
+        "id":1,  //required
         "min_org": 1,
         "max_org": 3,
         "harga": 200000
     },
     {
-        "id":2,
+        "id":2, //required   
         "min_org": 4,
         "max_org": 6,
         "harga": 150000
-    },
-    {
-        "id":3,
-        "min_org": 7,
-        "max_org": 9,
-        "harga": 100000
     }
 ]
 ```
@@ -107,6 +96,8 @@ Response Body Success :
 
 ```json
 {
+    "status": "success",
+    "message": "Data updated successfully.",
     "data": {
         "id_penginapan": 5,
         "nama": "Penginapan C",
@@ -116,26 +107,25 @@ Response Body Success :
         "updatedAt": "2024-07-21T14:04:14.000Z",
         "harga_penginapans": [
             {
-                "id": 7,
+                "id": 1,
                 "id_penginapan": 5,
-                "min_org": 7,
-                "max_org": 9,
+                "min_org": 1,
+                "max_org": 3,
                 "harga": 100009,
                 "createdAt": "2024-07-22T14:11:47.000Z",
                 "updatedAt": "2024-07-22T14:11:47.000Z"
             },
             {
-                "id": 9,
+                "id": 2,
                 "id_penginapan": 5,
-                "min_org": 3,
-                "max_org": 5,
+                "min_org": 4,
+                "max_org": 6,
                 "harga": 100009,
                 "createdAt": "2024-07-22T15:03:43.000Z",
                 "updatedAt": "2024-07-22T15:03:43.000Z"
             }
         ]
-    },
-    "msg": "Data berhasil diupdate !"
+    }
 }
 ```
 
@@ -196,7 +186,7 @@ Response Body Error :
 ```
 
 ### DELETE harga penginapan
-Endpoint : DELETE /api/harga-penginapan/:idPenginapan
+Endpoint : DELETE /api/harga-penginapan/:id
 
 cookie: token 
 
@@ -204,7 +194,8 @@ Response Body Success :
 
 ```json
 {
-    "msg": "Data berhasil dihapus !"
+    "status": "success",
+    "message": "Data deleted successfully.",
 }
 ``
 
