@@ -51,7 +51,7 @@ const get = async (req,res,next) => {
 
 const remove = async (req,res,next) => {
     try {
-        const result = await removeHargaPenginapan(req.params.idPenginapan)
+        const result = await removeHargaPenginapan(req.params.id)
 
         if(result) {
             res.status(200).json({
